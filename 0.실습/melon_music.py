@@ -22,21 +22,22 @@ class MelonMusic:
     def get_url(self):
         return self.url
 
-    def get_list(self):
+    def print_list(self):
         soup = BeautifulSoup(self.url, 'lxml')
         print('------- 제목 --------')
+
         ls = soup.find_all(name="a", attrs={"class":'title'})
+
         for i in ls:
-            title = self.title_ls.append(i.find("a").text)
-            print(f'{title}')
+            self.title_ls.append(i.find("a").text)
+            print(f'{self.title_ls[i]}')
 
         print('------ 가수 --------')
-        ls = soup.find_all(name="a",attrs={"class":'title'})
+        ls = soup.find_all(name="a", attrs={"class":'title'})
+
         for i in ls:
-            artist = self.artist_ls.append(i.find("a").text)
-            print(f'{artist}')
-
-
+            self.artist_ls.append(i.find("a").text)
+            print(f'{self.artist_ls[i]}')
 
 
 if __name__ == '__main__':
@@ -44,6 +45,6 @@ if __name__ == '__main__':
     url = input('멜론에서 크롤링할 url를 입력하시오.')
     m.set_url(url)
     u2 = m.get_url()
-    m.get_list()
+    m.print_list()
 
 
