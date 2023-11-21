@@ -29,7 +29,7 @@ class Certificate:
 if __name__ == '__main__':
 
     c = Certificate()
-    n = int(input('몇 명을 입력하실겁니까? '))
+    n = int(input('몇 명 입력 예정 : '))
     ls = []
 
     for i in range(n):
@@ -45,9 +45,8 @@ if __name__ == '__main__':
     for i in ls:
         print(i)
 
-
-        # for j in stu:
-        #     print(j)
+    df = pd.DataFrame(ls)
+    df.to_excel(r'./certificate/test.xlsx', index=False, header=False)
 
     # c.save_to_excel()
 
