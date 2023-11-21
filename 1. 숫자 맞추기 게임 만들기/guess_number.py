@@ -6,7 +6,6 @@ class RandomNumber:
     def __init__(self):
         self.random_number = 0
 
-
     def get_random_number(self):
 
         self.random_number = random.randint(1, 100)
