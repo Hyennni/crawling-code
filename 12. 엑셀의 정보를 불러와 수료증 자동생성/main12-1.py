@@ -3,17 +3,15 @@ import pandas as pd
 class Certificate:
 
     def __init__(self):
-        self.student = []
+        self.student_list = []
+
     #     낱개로 담는 것보다 list로 종합해서 받는 게 나음 -> list는 복수형
 
-    def set_student(self, name,birth,c_number):
-        self.student = [name,birth,c_number]
+    def set_student_list(self, student):
+        self.student_list.append(student)
 
-    def get_student(self):
-        return self.student
-
-    def save_to_excel(self):
-        df = pd.DataFrame([self.student])
+    def save_to_excel(self,fname):
+        d = pd.DataFrame(self.student_list)
 
         df2 = pd.DataFrame([["홍길동", "1990.01.02", "2021-0001"],
                            ["김민준", "1990.05.06", "2021-0002"],
@@ -23,31 +21,38 @@ class Certificate:
                            ["장다인", "2017.12.12", "2021-0006"]])
 
 
-        print(df)
-        df.to_excel(r'./certificate/수료증명단.xlsx', index=False, header=False)
+        d.to_excel(f'./certificate/{fname}.xlsx', index=False, header=False)
 
 if __name__ == '__main__':
 
     c = Certificate()
-    n = int(input('몇 명 입력 예정 : '))
-    ls = []
 
-    for i in range(n):
+    while 1:
+        menu = input('0- 종료 1- 학생 정보 입력 2- 엑셀 저장 ')
 
-        name = input('이름 : ')
-        birth = input('생년월일 : ')
-        c_number = input('수료증번호 : ')
+        if menu =='0':
+            print('프로그램 종료!')
+            break
 
-        c.set_student(name,birth,c_number)
-        stu = c.get_student()
-        ls.append(stu)
+        elif menu=='1':
+            n = int(input('수료 인원 수 : '))
+            for i in range(n):
+                stu = []
+                name = input('이름 : ')
+                birth = input('생년월일 : ')
+                c_number = input('수료증번호 : ')
+                stu.append(name)
+                stu.append(birth)
+                stu.append(c_number)
+                c.set_student_list(stu)
 
-    for i in ls:
-        print(i)
+        elif menu=='2':
+            name = input('파일명 입력 :')
+            c.save_to_excel(name)
 
-    df = pd.DataFrame(ls)
-    df.to_excel(r'./certificate/test.xlsx', index=False, header=False)
+        else:
+            print('잘못된 번호입니다.')
+            continue
 
-    # c.save_to_excel()
 
 
