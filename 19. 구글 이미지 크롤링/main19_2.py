@@ -1,16 +1,13 @@
+import ssl
+# conda install webdriver_manager
+# conda install -c conda-forge webdriver-manager
+ssl._create_default_https_context = ssl._create_unverified_context
+
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium import webdriver
-# pip install selenium
-from selenium.webdriver.common.keys import Keys
 import time
 import urllib.request
-
-#왜 안되는 지 확인해보기!
 
 class GoogleImage:
 
@@ -21,20 +18,23 @@ class GoogleImage:
     def set_search_word(self, search_word):
         self.search_word = search_word
 
+    def get_search_word(self):
+        return self.search_word
+
     def execute_search(self):
         search_word = self.search_word
-        # print(f'{self.search_word}')
         driver = webdriver.Chrome()
-        driver.get(self.url)
-        elem = driver.find_element("name","q")
-        # elem = driver.find_element('name','p') -> p를 q로 바꿈! " double quoter만 가능한가봐 이유는 모르겠음!
+        driver.get("https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl")
+        elem = driver.find_element("name", "q")
 
-        elem.send_keys(search_word) #검색창에 단어 입력 후
-        elem.send_keys(Keys.RETURN) #enter 키 입력해라
+        elem.send_keys(search_word)
+        elem.send_keys(Keys.RETURN)
 
         SCROLL_PAUSE_TIME = 1
-        last_height = driver.execute_script('return document.body.scrollHeight') #스크롤바 내리기
-        while 1:
+        # Get scroll height
+        last_height = driver.execute_script("return document.body.scrollHeight")
+        while True:
+            # Scroll down to bottom
             driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             # Wait to load page
             time.sleep(SCROLL_PAUSE_TIME)
@@ -74,13 +74,15 @@ class GoogleImage:
         driver.close()
 
 
+
+
+
+
 if __name__ == '__main__':
 
     g = GoogleImage()
     while 1:
-        menu = input(f'''0. EXIT\n
-              '1. 구글 이미지에 검색어 입력\n
-              '2. 구글 이미지 조회하기\n''')
+        menu = input('0. EXIT 1. 구글 이미지에 검색어 입력 2. 구글 이미지 조회하기')
         if menu == '0':
             print('프로그램 종료')
             break
@@ -90,6 +92,7 @@ if __name__ == '__main__':
 
         elif menu == '2':
             g.execute_search()
+
 
         else:
             print('다시 입력')
