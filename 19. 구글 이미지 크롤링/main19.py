@@ -1,86 +1,44 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium import webdriver
-
-driver = webdriver.Chrome(ChromeDriverManager().install())
-
-URL='https://www.google.co.kr/imghp'
-driver.get(url=URL)
-
-driver.implicitly_wait(time_to_wait=10)
-
-
-# In[2]:
-
-
+# pip install selenium
 from selenium.webdriver.common.keys import Keys
-
-elem = driver.find_element_by_css_selector("#sbtc > div > div.a4bIc > input")
-elem.send_keys("바다")
-elem.send_keys(Keys.RETURN)
-
-
-# In[5]:
-
-
 import time
-elem = driver.find_element_by_tag_name("body") 
-for i in range(60): 
-    elem.send_keys(Keys.PAGE_DOWN) 
-    time.sleep(0.1)
-
-try: 
-    driver.find_element_by_css_selector('#islmp > div > div > div > div.gBPM8 > div.qvfT1 > div.YstHxe > input').click() 
-    
-    for i in range(60): 
-        elem.send_keys(Keys.PAGE_DOWN) 
-        time.sleep(0.1) 
-except: 
-    pass
-
-
-# In[7]:
-
-
-links=[] 
-images = driver.find_elements_by_css_selector("#islrg > div.islrc > div > a.wXeWr.islib.nfEiy > div.bRMDJf.islir > img")
-
-for image in images:
-    if image.get_attribute('src') is not None:
-        links.append(image.get_attribute('src'))
-        
-print(' 찾은 이미지 개수:',len(links))
-
-
-# In[22]:
-
-
 import urllib.request
 
-for k,i in enumerate(links):
-    url = i
-    urllib.request.urlretrieve(url, "C:\\파이썬과 40개의 작품들\\19. 구글 이미지 크롤링\\사진다운로드\\"+str(k)+".jpg")
 
-print('다운로드 완료하였습니다.')
+class GoogleImage:
 
-URL='https://www.nate.com'
-driver.get(url=URL)
-driver.implicitly_wait(time_to_wait=10)
+    def __init__(self):
+        self.search_word = ''
 
-#driver.find_element_by_css_selector('#olLiveIssueKeyword > li:nth-child(1) > a > span.txt_rank').click()
+    def set_search_word(self, search_word):
+        self.search = search_word
 
-driver.find_element(By.CSS_SELECTOR,'#olLiveIssueKeyword > li:nth-child(1) > a > span.txt_rank').click()
+    def execute_search(self):
+        pass
 
-#nate_results = driver.find_elements_by_css_selector('#search-option > form:nth-child(1) > fieldset > div.issue-kwd > span > a')
 
-nate_results = driver.find_elements(By.CSS_SELECTOR,'#search-option > form:nth-child(1) > fieldset > div.issue-kwd > span > a')
+if __name__ == '__main__':
 
-nate_list = []
-for nate_result in nate_results:
-    print(nate_result.text)
-    nate_list.append(nate_result.text)
+    g = GoogleImage()
+    while 1:
+        menu = input(f'''0. EXIT\n
+              '1. 구글 이미지에 검색어 입력\n
+              '2. 구글 이미지 조회하기\n''')
+        if menu == '0':
+            print('프로그램 종료')
+            break
+        elif menu == '1':
+            s = input('검색어 입력: ')
+
+        elif menu == '2':
+            g.execute_search()
+
+        else:
+            print('다시 입력')
+            continue
